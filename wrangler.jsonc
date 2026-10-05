@@ -1,0 +1,6 @@
+{
+  "name": "audiophile-ecommerce-website",
+  "compatibility_date": "2026-10-05",
+  "workers_dev": true,
+  "assets": { "directory": "./out", "not_found_handling": "404-page" }
+}
