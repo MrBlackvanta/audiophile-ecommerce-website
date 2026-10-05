@@ -1,5 +1,7 @@
+import { CategoryCards } from "@/components/sections";
 import { siteName } from "@/data";
-import { pageMetadata } from "@/lib/metadata";
+import { pageMetadata } from "@/lib";
+import { Hero } from "@/views/home";
 import type { Metadata } from "next";
 
 const title = `${siteName} | High-end headphones, speakers and earphones`;
@@ -14,5 +16,15 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function HomePage() {
-  return <h1>{siteName}</h1>;
+  return (
+    <>
+      <Hero />
+      <nav
+        aria-label="Categories"
+        className="v-container pt-10 md:pt-24 lg:pt-30"
+      >
+        <CategoryCards />
+      </nav>
+    </>
+  );
 }

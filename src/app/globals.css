@@ -112,6 +112,53 @@
   --text-label--font-weight: 700;
 }
 
-html {
-  overflow-y: scroll;
+@layer base {
+  :root {
+    --focus-ring: var(--color-brand);
+  }
+
+  html {
+    overflow-y: scroll;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+  }
+}
+
+@utility v-on-dark {
+  --focus-ring: #ffffff;
+}
+
+@utility v-tap {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    inset: -0.875rem;
+    content: "";
+  }
+}
+
+@utility v-container {
+  @apply max-w-page mx-auto box-content px-6 md:px-10;
+}
+
+@utility v-nav-link {
+  @apply text-nav hover:text-brand-on-dark block uppercase transition-[color] duration-200;
+}
+
+@utility v-link-shop {
+  @apply text-button inline-flex items-center gap-2.5 text-black/50 uppercase transition-[color] duration-200;
+}
+
+@utility v-btn {
+  @apply text-button inline-flex h-12 cursor-pointer items-center justify-center uppercase transition-[background-color,border-color,color] duration-200;
+}
+
+@utility v-btn-brand {
+  @apply v-btn bg-brand hover:bg-brand-hover text-white;
 }

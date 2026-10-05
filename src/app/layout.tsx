@@ -1,3 +1,4 @@
+import { SiteFooter, SiteHeader } from "@/components/layout";
 import { siteName, siteUrl } from "@/data";
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
@@ -32,8 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} antialiased`}>
-      <body className="flex min-h-dvh flex-col">
+      <body className="bg-page flex min-h-dvh flex-col">
+        <SiteHeader />
         <main className="grow">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
