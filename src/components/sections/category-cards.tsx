@@ -24,7 +24,7 @@ export default function CategoryCards({ onNavigate }: CategoryCardsProps) {
             className="group/card bg-haze flex flex-col items-center rounded-lg pt-22 pb-5.5 lg:pt-29 lg:pb-7.5"
           >
             <span className="text-h6-sm lg:text-h6">{name}</span>
-            <span className="v-link-shop group-hover/card:text-brand mt-4">
+            <span className="v-link-shop group-hover/card:text-brand mt-4.25 lg:mt-4">
               Shop
               <ArrowRightIcon className="text-brand" />
             </span>

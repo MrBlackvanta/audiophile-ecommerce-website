@@ -22,7 +22,7 @@ export default function SiteFooter() {
   return (
     <footer className="v-on-dark bg-ink relative text-white">
       <div className="v-container grid justify-items-center pb-9.5 text-center md:grid-cols-[1fr_auto] md:justify-items-start md:pb-11.5 md:text-left lg:pb-12">
-        <span className="bg-brand h-1 w-25.25 md:col-span-2" />
+        <span className="bg-brand-on-dark h-1 w-25.25 md:col-span-2" />
 
         <Link
           href="/"

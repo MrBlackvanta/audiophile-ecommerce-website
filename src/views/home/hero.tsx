@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="bg-ink v-on-dark relative min-h-150 overflow-hidden md:min-h-182.25">
-      <picture>
+    <section className="bg-matte v-on-dark relative min-h-150 overflow-hidden md:min-h-182.25">
+      <picture className="absolute inset-y-0 left-1/2 w-full -translate-x-1/2 md:max-w-3xl lg:max-w-360">
         <source
           media="(min-width: 64rem)"
           srcSet={heroDesktop.src}
@@ -26,7 +26,7 @@ export default function Hero() {
           alt=""
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 size-full object-cover"
+          className="size-full object-cover"
         />
       </picture>
       <div className="absolute inset-0 bg-black/10" />

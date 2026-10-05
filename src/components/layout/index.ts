@@ -1,4 +1,6 @@
 export { default as Attribution } from "./attribution";
+export { default as CartMenu } from "./cart-menu";
+export { default as HeaderPanels } from "./header-panels";
 export { default as MobileMenu } from "./mobile-menu";
 export { default as NavLinks } from "./nav-links";
 export { default as SiteFooter } from "./site-footer";

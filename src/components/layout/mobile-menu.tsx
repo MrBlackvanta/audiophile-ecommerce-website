@@ -2,46 +2,28 @@
 
 import { MenuIcon } from "@/components/icons";
 import { CategoryCards } from "@/components/sections";
-import { cn, lockPageScroll } from "@/lib";
-import { useEffect, useRef, useState } from "react";
-
-function focusWhenVisible(element: HTMLElement | null) {
-  return requestAnimationFrame(() =>
-    requestAnimationFrame(() => element?.focus()),
-  );
-}
+import { cn, useOverlay } from "@/lib";
+import { useEffect, useRef } from "react";
+import { useHeaderPanel } from "./header-panels";
 
 export default function MobileMenu() {
-  const [open, setOpen] = useState(false);
+  const { open, toggle, close } = useHeaderPanel("menu");
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useOverlay(open, panelRef, toggleRef);
 
   useEffect(() => {
     if (!open) return;
 
     const desktop = window.matchMedia("(min-width: 64rem)");
     const closeOnDesktop = () => {
-      if (desktop.matches) setOpen(false);
+      if (desktop.matches) close();
     };
+
     desktop.addEventListener("change", closeOnDesktop);
-
-    const behind = document.querySelectorAll("main, footer");
-    behind.forEach((element) => element.setAttribute("inert", ""));
-
-    const unlock = lockPageScroll();
-    const frame = focusWhenVisible(panelRef.current);
-    const toggle = toggleRef.current;
-
-    return () => {
-      desktop.removeEventListener("change", closeOnDesktop);
-      behind.forEach((element) => element.removeAttribute("inert"));
-      cancelAnimationFrame(frame);
-      unlock();
-      toggle?.focus({ preventScroll: true });
-    };
-  }, [open]);
-
-  const close = () => setOpen(false);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, [open, close]);
 
   const closeOnEscape = (event: React.KeyboardEvent) => {
     if (event.key === "Escape") close();
@@ -58,7 +40,7 @@ export default function MobileMenu() {
         type="button"
         aria-expanded={open}
         aria-controls="site-menu"
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
         className="v-tap flex text-white"
       >
         <MenuIcon />

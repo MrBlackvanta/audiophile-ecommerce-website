@@ -7,7 +7,9 @@
   --color-brand: #a85424;
   --color-brand-hover: #8f481e;
   --color-brand-on-dark: #d87d4a;
+  --color-black-hover: #4c4c4c;
   --color-ink: #101010;
+  --color-matte: #181818;
   --color-page: #fafafa;
   --color-haze: #f1f1f1;
   --color-muted: #6e6e6e;
@@ -121,6 +123,11 @@
     overflow-y: scroll;
   }
 
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   a:focus-visible,
   button:focus-visible,
   [tabindex]:focus-visible {
@@ -152,13 +159,21 @@
 }
 
 @utility v-link-shop {
-  @apply text-button inline-flex items-center gap-2.5 text-black/50 uppercase transition-[color] duration-200;
+  @apply text-button text-muted inline-flex items-center gap-2.5 uppercase transition-[color] duration-200;
 }
 
 @utility v-btn {
-  @apply text-button inline-flex h-12 cursor-pointer items-center justify-center uppercase transition-[background-color,border-color,color] duration-200;
+  @apply text-button inline-flex h-12 items-center justify-center uppercase transition-[background-color,border-color,color] duration-200;
 }
 
 @utility v-btn-brand {
   @apply v-btn bg-brand hover:bg-brand-hover text-white;
+}
+
+@utility v-btn-dark {
+  @apply v-btn hover:bg-black-hover bg-black text-white;
+}
+
+@utility v-btn-outline {
+  @apply v-btn border border-black text-black hover:bg-black hover:text-white;
 }

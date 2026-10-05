@@ -1,0 +1,140 @@
+"use client";
+
+import { QuantityStepper } from "@/components/cart";
+import { CartIcon } from "@/components/icons";
+import { findProduct } from "@/data";
+import {
+  clearCart,
+  cn,
+  formatPrice,
+  setCartQuantity,
+  useCartLines,
+  useOverlay,
+} from "@/lib";
+import Link from "next/link";
+import { useRef } from "react";
+import { useHeaderPanel } from "./header-panels";
+
+export default function CartMenu() {
+  const { open, toggle, close } = useHeaderPanel("cart");
+  const lines = useCartLines();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useOverlay(open, panelRef, toggleRef);
+
+  const items = lines.flatMap((line) => {
+    const product = findProduct(line.slug);
+    return product ? [{ ...line, product }] : [];
+  });
+  const total = items.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0,
+  );
+
+  const closeOnEscape = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") close();
+  };
+
+  const closeOnBackdrop = (event: React.MouseEvent) => {
+    if (event.target === event.currentTarget) close();
+  };
+
+  return (
+    <div className="justify-self-end">
+      <button
+        ref={toggleRef}
+        type="button"
+        aria-expanded={open}
+        aria-controls="site-cart"
+        onClick={toggle}
+        className="v-tap flex text-white"
+      >
+        <CartIcon />
+        <span className="sr-only">
+          Cart, {items.length === 0 ? "empty" : `${items.length} items`}
+        </span>
+      </button>
+
+      <div
+        id="site-cart"
+        inert={!open}
+        onKeyDown={closeOnEscape}
+        onClick={closeOnBackdrop}
+        className={cn(
+          "invisible fixed inset-x-0 top-22.5 bottom-0 z-40 overflow-y-auto overscroll-contain bg-black/40 opacity-0 transition-[opacity,visibility] duration-300 motion-reduce:transition-none lg:top-24.25",
+          open && "visible opacity-100",
+        )}
+      >
+        <div className="v-container flex justify-end pt-6 pb-6 lg:pt-8">
+          <div
+            ref={panelRef}
+            tabIndex={-1}
+            className="w-full rounded-lg bg-white px-7 py-8 text-black outline-none md:w-94.25 md:px-8"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-h6 uppercase">Cart ({items.length})</h2>
+              <button
+                type="button"
+                disabled={items.length === 0}
+                onClick={clearCart}
+                className="text-body text-muted hover:text-brand underline underline-offset-2 transition-[color] duration-200 disabled:no-underline disabled:opacity-50"
+              >
+                Remove all
+              </button>
+            </div>
+
+            {items.length === 0 ? (
+              <p className="text-body text-muted mt-7.75">
+                Your cart is empty.
+              </p>
+            ) : (
+              <>
+                <ul className="mt-7.75 space-y-6">
+                  {items.map(({ slug, quantity, product }) => (
+                    <li key={slug} className="flex items-center gap-4">
+                      <img
+                        src={product.images.cart.src}
+                        width={product.images.cart.width}
+                        height={product.images.cart.height}
+                        alt=""
+                        className="size-16 rounded-lg"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-body truncate font-bold">
+                          {product.cartName}
+                        </p>
+                        <p className="text-price-sm text-muted">
+                          {formatPrice(product.price)}
+                        </p>
+                      </div>
+                      <QuantityStepper
+                        value={quantity}
+                        min={0}
+                        label={product.cartName}
+                        onChange={(next) => setCartQuantity(slug, next)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="mt-8 flex items-center justify-between">
+                  <span className="text-body text-muted uppercase">Total</span>
+                  <span className="text-price">{formatPrice(total)}</span>
+                </p>
+
+                <Link
+                  href="/checkout"
+                  onClick={close}
+                  className="v-btn-brand mt-6 w-full"
+                >
+                  Checkout
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
