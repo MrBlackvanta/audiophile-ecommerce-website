@@ -10,6 +10,6 @@ export function lockPageScroll() {
     style.position = "";
     style.insetInline = "";
     style.top = "";
-    window.scrollTo(0, offset);
+    window.scrollTo({ top: offset, behavior: "instant" });
   };
 }

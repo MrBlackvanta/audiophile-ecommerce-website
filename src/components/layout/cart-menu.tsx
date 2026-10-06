@@ -64,7 +64,10 @@ export default function CartMenu() {
           <div
             ref={panelRef}
             tabIndex={-1}
-            className="w-full rounded-lg bg-white px-7 py-8 text-black outline-none md:w-94.25 md:px-8"
+            className={cn(
+              "w-full rounded-lg bg-white px-7 py-8 text-black transition-[translate] duration-300 outline-none motion-reduce:transition-none md:w-94.25 md:px-8",
+              open ? "translate-y-0" : "-translate-y-4",
+            )}
           >
             <div className="flex items-start justify-between gap-4">
               <h2 className="text-h6 uppercase">Cart ({items.length})</h2>

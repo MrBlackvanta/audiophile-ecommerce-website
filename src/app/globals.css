@@ -127,6 +127,7 @@
 @layer base {
   :root {
     --focus-ring: var(--color-brand);
+    --skeleton: color-mix(in oklab, #000000 8%, transparent);
   }
 
   html {
@@ -145,10 +146,29 @@
     outline: 2px solid var(--focus-ring);
     outline-offset: 4px;
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 280ms;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+@keyframes v-pulse {
+  50% {
+    opacity: 0.45;
+  }
 }
 
 @utility v-on-dark {
   --focus-ring: #ffffff;
+  --skeleton: color-mix(in oklab, #ffffff 15%, transparent);
 }
 
 @utility v-tap {
@@ -187,4 +207,58 @@
 
 @utility v-btn-outline {
   @apply v-btn border border-black text-black hover:bg-black hover:text-white;
+}
+
+@utility v-skeleton {
+  background-color: var(--skeleton);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: v-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+@utility v-dialog {
+  opacity: 0;
+  scale: 0.96;
+  transition:
+    opacity 300ms ease-out,
+    scale 300ms ease-out,
+    display 300ms allow-discrete,
+    overlay 300ms allow-discrete;
+
+  &::backdrop {
+    background-color: rgb(0 0 0 / 0.4);
+    opacity: 0;
+    transition:
+      opacity 300ms ease-out,
+      display 300ms allow-discrete,
+      overlay 300ms allow-discrete;
+  }
+
+  &[open],
+  &[open]::backdrop {
+    opacity: 1;
+  }
+
+  &[open] {
+    scale: 1;
+  }
+
+  @starting-style {
+    &[open] {
+      opacity: 0;
+      scale: 0.96;
+    }
+
+    &[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &::backdrop {
+      transition: none;
+    }
+  }
 }

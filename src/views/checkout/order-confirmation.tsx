@@ -41,7 +41,7 @@ export default function OrderConfirmation({ order }: OrderConfirmationProps) {
       ref={dialogRef}
       aria-labelledby="order-confirmed"
       onCancel={() => router.push("/")}
-      className="m-auto max-h-[calc(100dvh-3rem)] w-[calc(100%-3rem)] max-w-81.75 overflow-y-auto rounded-lg bg-white p-8 text-black backdrop:bg-black/40 md:max-w-135 md:p-12"
+      className="v-dialog m-auto max-h-[calc(100dvh-3rem)] w-[calc(100%-3rem)] max-w-81.75 overflow-y-auto overscroll-contain rounded-lg bg-white p-8 text-black md:max-w-135 md:p-12"
     >
       <OrderConfirmationIcon className="text-brand-on-dark size-16" />
       <h2

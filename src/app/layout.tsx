@@ -1,3 +1,4 @@
+import { PageTransitions } from "@/components/effects";
 import { SiteFooter, SiteHeader } from "@/components/layout";
 import { siteName, siteUrl } from "@/data";
 import type { Metadata, Viewport } from "next";
@@ -32,8 +33,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} antialiased`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${manrope.variable} antialiased`}
+    >
       <body className="bg-page flex min-h-dvh flex-col">
+        <PageTransitions />
         <SiteHeader />
         <main className="grow">{children}</main>
         <SiteFooter />

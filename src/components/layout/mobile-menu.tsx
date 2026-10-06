@@ -60,7 +60,10 @@ export default function MobileMenu() {
         <div
           ref={panelRef}
           tabIndex={-1}
-          className="rounded-b-lg bg-white px-6 pt-8 pb-9 text-black outline-none md:px-10 md:pt-14 md:pb-17"
+          className={cn(
+            "rounded-b-lg bg-white px-6 pt-8 pb-9 text-black transition-[translate] duration-300 outline-none motion-reduce:transition-none md:px-10 md:pt-14 md:pb-17",
+            open ? "translate-y-0" : "-translate-y-4",
+          )}
         >
           <nav aria-label="Menu">
             <CategoryCards onNavigate={close} />
