@@ -1,4 +1,5 @@
 import { findProduct, type Product } from "@/data";
+import type { PlacedOrder } from "./api";
 import type { CartLine } from "./cart";
 
 export const shippingFee = 50;
@@ -28,3 +29,18 @@ export function summariseCart(lines: CartLine[]) {
 }
 
 export type CartSummary = ReturnType<typeof summariseCart>;
+
+export function confirmedOrder(placed: PlacedOrder): CartSummary {
+  const items: CartItem[] = placed.items.flatMap(({ slug, quantity }) => {
+    const product = findProduct(slug);
+    return product ? [{ slug: product.slug, quantity, product }] : [];
+  });
+
+  return {
+    items,
+    total: placed.total,
+    shipping: placed.shipping,
+    vat: placed.includedVat,
+    grandTotal: placed.grandTotal,
+  };
+}

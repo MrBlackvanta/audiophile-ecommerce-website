@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: vanta-audiophile-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Cors__AllowedOrigins__0
+        value: https://audiophile-ecommerce-website.abdelrhman-ahmed8881.workers.dev
+      - key: Database__Schema
+        value: audiophile
+      - key: ConnectionStrings__Default
+        sync: false
+      - key: Migrations__Apply
+        sync: false

@@ -1,4 +1,4 @@
-# Audiophile e-commerce website
+# audiophile
 
 My solution to the [Audiophile e-commerce website](https://www.frontendmentor.io/challenges/audiophile-ecommerce-website-C8cuSd_wx) challenge on Frontend Mentor.
 
@@ -13,6 +13,8 @@ My solution to the [Audiophile e-commerce website](https://www.frontendmentor.io
 - React
 - TypeScript
 - Tailwind CSS
+- .NET (see `backend/`)
+- PostgreSQL
 
 ## Author
 

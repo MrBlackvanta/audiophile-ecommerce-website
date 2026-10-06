@@ -3,6 +3,8 @@
 import { CashOnDeliveryIcon } from "@/components/icons";
 import {
   clearCart,
+  confirmedOrder,
+  placeOrder,
   summariseCart,
   useCartLines,
   type CartSummary,
@@ -65,6 +67,8 @@ export default function CheckoutForm() {
   const [values, setValues] = useState(emptyForm);
   const [payment, setPayment] = useState("e-money");
   const [attempt, setAttempt] = useState(0);
+  const [placing, setPlacing] = useState(false);
+  const [failure, setFailure] = useState<string | null>(null);
   const [order, setOrder] = useState<CartSummary | null>(null);
 
   const summary = summariseCart(useCartLines());
@@ -74,7 +78,7 @@ export default function CheckoutForm() {
   const update = (field: keyof FormValues) => (value: string) =>
     setValues((current) => ({ ...current, [field]: value }));
 
-  const submit: SubmitEventHandler<HTMLFormElement> = (event) => {
+  const submit: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const found = validate(values, payByEMoney);
@@ -90,7 +94,31 @@ export default function CheckoutForm() {
       return;
     }
 
-    setOrder(summary);
+    setPlacing(true);
+    setFailure(null);
+
+    const result = await placeOrder(
+      summary.items,
+      {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        address: values.address,
+        zip: values.zip,
+        city: values.city,
+        country: values.country,
+      },
+      payment,
+    );
+
+    setPlacing(false);
+
+    if (!result.ok) {
+      setFailure(result.message);
+      return;
+    }
+
+    setOrder(confirmedOrder(result.order));
     clearCart();
   };
 
@@ -261,7 +289,7 @@ export default function CheckoutForm() {
         </fieldset>
       </form>
 
-      <OrderSummary summary={summary} />
+      <OrderSummary summary={summary} placing={placing} failure={failure} />
       <OrderConfirmation order={order} />
     </div>
   );

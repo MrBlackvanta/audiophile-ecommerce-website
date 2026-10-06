@@ -18,6 +18,15 @@ next-env.d.ts
 # cloudflare
 .wrangler/
 
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+appsettings.local.json
+appsettings.*.local.json
+
 # misc
 .DS_Store
 *.pem

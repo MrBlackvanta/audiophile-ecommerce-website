@@ -17,9 +17,15 @@ function SummaryRow({ label, value, className }: SummaryRowProps) {
 
 type OrderSummaryProps = {
   summary: CartSummary;
+  placing: boolean;
+  failure: string | null;
 };
 
-export default function OrderSummary({ summary }: OrderSummaryProps) {
+export default function OrderSummary({
+  summary,
+  placing,
+  failure,
+}: OrderSummaryProps) {
   const { items, total, shipping, vat, grandTotal } = summary;
 
   return (
@@ -71,11 +77,17 @@ export default function OrderSummary({ summary }: OrderSummaryProps) {
       <button
         type="submit"
         form="checkout"
-        disabled={items.length === 0}
+        disabled={items.length === 0 || placing}
         className="v-btn-brand mt-8 w-full disabled:opacity-50"
       >
-        Continue &amp; Pay
+        {placing ? "Placing order…" : "Continue & Pay"}
       </button>
+
+      {failure && (
+        <p role="alert" className="text-label text-danger mt-4 font-medium">
+          {failure}
+        </p>
+      )}
     </section>
   );
 }
