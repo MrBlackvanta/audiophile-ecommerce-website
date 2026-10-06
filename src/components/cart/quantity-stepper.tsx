@@ -1,12 +1,18 @@
 "use client";
 
-import { maxQuantity } from "@/lib";
+import { cn, maxQuantity } from "@/lib";
+
+const sizes = {
+  sm: { box: "h-8 w-24", step: "w-10" },
+  lg: { box: "h-12 w-30", step: "w-11.75" },
+};
 
 type QuantityStepperProps = {
   value: number;
   label: string;
-  onChange: (value: number) => void;
+  onChange: (update: (current: number) => number) => void;
   min?: number;
+  size?: keyof typeof sizes;
 };
 
 export default function QuantityStepper({
@@ -14,15 +20,19 @@ export default function QuantityStepper({
   label,
   onChange,
   min = 1,
+  size = "sm",
 }: QuantityStepperProps) {
+  const step =
+    "text-button text-muted disabled:text-line h-full transition-[color] duration-200 hover:text-black";
+
   return (
-    <div className="bg-haze flex h-8 w-24 items-center">
+    <div className={cn("bg-haze flex items-center", sizes[size].box)}>
       <button
         type="button"
         aria-label={`Decrease ${label} quantity`}
         disabled={value <= min}
-        onClick={() => onChange(value - 1)}
-        className="text-button text-muted disabled:text-line h-full w-10 transition-[color] duration-200 hover:text-black"
+        onClick={() => onChange((current) => Math.max(current - 1, min))}
+        className={cn(step, sizes[size].step)}
       >
         &minus;
       </button>
@@ -33,8 +43,10 @@ export default function QuantityStepper({
         type="button"
         aria-label={`Increase ${label} quantity`}
         disabled={value >= maxQuantity}
-        onClick={() => onChange(value + 1)}
-        className="text-button text-muted disabled:text-line h-full w-10 transition-[color] duration-200 hover:text-black"
+        onClick={() =>
+          onChange((current) => Math.min(current + 1, maxQuantity))
+        }
+        className={cn(step, sizes[size].step)}
       >
         +
       </button>

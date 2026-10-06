@@ -10,7 +10,7 @@ export default function SiteHeader() {
     <header className="v-on-dark absolute inset-x-0 top-0 z-50">
       <div className="v-container">
         <HeaderPanels>
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-x-10.5 border-b border-white/10 py-8 text-white md:grid-cols-[auto_auto_1fr] lg:grid-cols-[1fr_auto_1fr] lg:border-white/20 lg:pt-8.75 lg:pb-9">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-x-10.5 py-8 text-white md:grid-cols-[auto_auto_1fr] lg:grid-cols-[1fr_auto_1fr] lg:pt-8.75 lg:pb-9">
             <MobileMenu />
             <Link
               href="/"

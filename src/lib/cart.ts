@@ -93,6 +93,14 @@ export function addToCart(slug: ProductSlug, quantity: number) {
   );
 }
 
+export function updateCartQuantity(
+  slug: ProductSlug,
+  update: (current: number) => number,
+) {
+  const current = lines.find((line) => line.slug === slug)?.quantity ?? 0;
+  setCartQuantity(slug, update(current));
+}
+
 export function setCartQuantity(slug: ProductSlug, quantity: number) {
   publish(
     quantity < 1

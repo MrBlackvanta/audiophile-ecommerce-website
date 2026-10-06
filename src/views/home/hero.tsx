@@ -1,6 +1,7 @@
 import heroDesktop from "@/assets/home/desktop/hero.webp";
 import heroMobile from "@/assets/home/mobile/hero.webp";
 import heroTablet from "@/assets/home/tablet/hero.webp";
+import { HeaderRule } from "@/components/layout";
 import Link from "next/link";
 
 export default function Hero() {
@@ -30,6 +31,7 @@ export default function Hero() {
         />
       </picture>
       <div className="absolute inset-0 bg-black/10" />
+      <HeaderRule />
 
       <div className="v-container relative flex flex-col items-center pt-49.5 text-center text-white md:pt-54 lg:items-start lg:pt-56.25 lg:text-left">
         <p className="text-overline -mr-2.5 uppercase lg:mr-0">New Product</p>

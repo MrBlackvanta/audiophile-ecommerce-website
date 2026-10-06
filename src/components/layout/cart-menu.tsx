@@ -2,12 +2,12 @@
 
 import { QuantityStepper } from "@/components/cart";
 import { CartIcon } from "@/components/icons";
-import { findProduct } from "@/data";
 import {
   clearCart,
   cn,
   formatPrice,
-  setCartQuantity,
+  summariseCart,
+  updateCartQuantity,
   useCartLines,
   useOverlay,
 } from "@/lib";
@@ -17,20 +17,11 @@ import { useHeaderPanel } from "./header-panels";
 
 export default function CartMenu() {
   const { open, toggle, close } = useHeaderPanel("cart");
-  const lines = useCartLines();
+  const { items, total } = summariseCart(useCartLines());
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useOverlay(open, panelRef, toggleRef);
-
-  const items = lines.flatMap((line) => {
-    const product = findProduct(line.slug);
-    return product ? [{ ...line, product }] : [];
-  });
-  const total = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0,
-  );
 
   const closeOnEscape = (event: React.KeyboardEvent) => {
     if (event.key === "Escape") close();
@@ -52,7 +43,10 @@ export default function CartMenu() {
       >
         <CartIcon />
         <span className="sr-only">
-          Cart, {items.length === 0 ? "empty" : `${items.length} items`}
+          Cart,{" "}
+          {items.length === 0
+            ? "empty"
+            : `${items.length} item${items.length === 1 ? "" : "s"}`}
         </span>
       </button>
 
@@ -112,7 +106,7 @@ export default function CartMenu() {
                         value={quantity}
                         min={0}
                         label={product.cartName}
-                        onChange={(next) => setCartQuantity(slug, next)}
+                        onChange={(update) => updateCartQuantity(slug, update)}
                       />
                     </li>
                   ))}
