@@ -166,6 +166,20 @@
   }
 }
 
+@keyframes v-pop {
+  from {
+    scale: 0.4;
+    opacity: 0;
+  }
+}
+
+@keyframes v-rise {
+  from {
+    translate: 0 0.375rem;
+    opacity: 0;
+  }
+}
+
 @utility v-on-dark {
   --focus-ring: #ffffff;
   --skeleton: color-mix(in oklab, #ffffff 15%, transparent);
@@ -207,6 +221,20 @@
 
 @utility v-btn-outline {
   @apply v-btn border border-black text-black hover:bg-black hover:text-white;
+}
+
+@utility v-cart-badge {
+  @apply bg-brand-on-dark text-label absolute -top-2 -right-2 grid min-w-5 place-items-center rounded-full px-1.5 py-0.5 text-black tabular-nums;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: v-pop 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@utility v-add-confirm {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: v-rise 280ms ease-out;
+  }
 }
 
 @utility v-skeleton {

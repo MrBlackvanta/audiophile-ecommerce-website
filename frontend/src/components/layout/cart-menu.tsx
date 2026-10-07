@@ -42,6 +42,11 @@ export default function CartMenu() {
         className="v-tap flex text-white"
       >
         <CartIcon />
+        {items.length > 0 && (
+          <span key={items.length} aria-hidden="true" className="v-cart-badge">
+            {items.length}
+          </span>
+        )}
         <span className="sr-only">
           Cart,{" "}
           {items.length === 0
