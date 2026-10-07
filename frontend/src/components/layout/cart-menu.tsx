@@ -17,7 +17,7 @@ import { useHeaderPanel } from "./header-panels";
 
 export default function CartMenu() {
   const { open, toggle, close } = useHeaderPanel("cart");
-  const { items, total } = summariseCart(useCartLines());
+  const { items, units, total } = summariseCart(useCartLines());
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -42,16 +42,14 @@ export default function CartMenu() {
         className="v-tap flex text-white"
       >
         <CartIcon />
-        {items.length > 0 && (
-          <span key={items.length} aria-hidden="true" className="v-cart-badge">
-            {items.length}
+        {units > 0 && (
+          <span key={units} aria-hidden="true" className="v-cart-badge">
+            {units}
           </span>
         )}
         <span className="sr-only">
           Cart,{" "}
-          {items.length === 0
-            ? "empty"
-            : `${items.length} item${items.length === 1 ? "" : "s"}`}
+          {units === 0 ? "empty" : `${units} item${units === 1 ? "" : "s"}`}
         </span>
       </button>
 
@@ -75,7 +73,7 @@ export default function CartMenu() {
             )}
           >
             <div className="flex items-start justify-between gap-4">
-              <h2 className="text-h6 uppercase">Cart ({items.length})</h2>
+              <h2 className="text-h6 uppercase">Cart ({units})</h2>
               <button
                 type="button"
                 disabled={items.length === 0}

@@ -17,10 +17,12 @@ export function summariseCart(lines: CartLine[]) {
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   );
+  const units = items.reduce((sum, item) => sum + item.quantity, 0);
   const shipping = items.length > 0 ? shippingFee : 0;
 
   return {
     items,
+    units,
     total,
     shipping,
     vat: Math.round(total * vatRate),
@@ -38,6 +40,7 @@ export function confirmedOrder(placed: PlacedOrder): CartSummary {
 
   return {
     items,
+    units: items.reduce((sum, item) => sum + item.quantity, 0),
     total: placed.total,
     shipping: placed.shipping,
     vat: placed.includedVat,
